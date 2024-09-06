@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>React Editable Tables</title>
+    <style>
+        table {
+            margin: 20px 0;
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            text-align: center;
+        }
+        input {
+            height: 100%;
+            width: 100%;
+            text-align: center;
+        }
+        td {
+            height: 30px;
+        }
+        button {
+            margin: 5px;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <!-- Include React and ReactDOM from CDN -->
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <script type="text/javascript" src="https://unpkg.com/babel-standalone@6/babel.js"></script>
+    <script type="text/babel">
+        window.onload = function() {
+            const { useState } = React;
+
+            function EditableTable({ title, initialData }) {
+                const [data, setData] = useState(initialData);
+
+                // Handle cell edit
+                const handleEdit = (index, key, value) => {
+                    const updatedData = [...data];
+                    updatedData[index][key] = value;
+                    setData(updatedData);
+                };
+
+                // Handle save row data
+                const handleSave = (index) => {
+                    console.log("Saved data:", data[index]);
+                    // Implement your save logic here
+                    alert('Row data saved successfully!');
+                };
+
+                // Handle delete row
+                const handleDelete = (index) => {
+                    const updatedData = data.filter((_, i) => i !== index);
+                    setData(updatedData);
+                };
+
+                return (
+                    <div>
+                        <h2>{title}</h2>
+                        <table>
+                            <tbody>
+                                {data.map((row, index) => (
+                                    <tr key={index}>
+                                        <td>
+                                            <input
+                                                value={row.name}
+                                                onChange={(e) => (index, 'name', e.target.value)}
+                                            />
+                                        </td>
+                                        <td>
+                                            <input
+                                                value={row.email}
+                                                onChange={(e) => handleEdit(index, 'email', e.target.value)}
+                                            />
+                                        </td>
+                                        <td>
+                                            <input
+                                                value={row.phone}
+                                                onChange={(e) => handleEdit(index, 'phone', e.target.value)}
+                                            />
+                                        </td>
+                                        <td>
+                                            <input
+                                                value={row.address}
+                                                onChange={(e) => handleEdit(index, 'address', e.target.value)}
+                                            />
+                                        </td>
+                                        <td>
+                                           
+                                        </td>
+                                        <td>
+                                            <button onClick={() => handleSave(index)}>Save</button>
+                                            <button onClick={() => handleDelete(index)}>Delete</button>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                );
+            }
+
+            function App() {
+                const table1Data = [
+                    { name: "Month 1", email: "", phone: "", address: "" },
+                    { name: "Onboarding call", email: "", phone: "", address: "" },
+                    { name: "Google Search Console Access", email: "", phone: "", address: "" },
+                    { name: "Google Analytics Access", email: "", phone: "", address: "" },
+                    { name: "Website Access", email: "", phone: "", address: "" },
+                    { name: "Technical Audit", email: "", phone: "", address: "" },
+                    { name: "Anchor Text And Schematic Analysics", email: "", phone: "", address: "" },
+                    { name: "Competitor Analysic", email: "", phone: "", address: "" },
+                    { name: "Anchor Text/Url Mapping", email: "", phone: "", address: "" },
+                    { name: "Google Data Studio Report + Local Reporting Suite", email: "", phone: "", address: "" },
+                    { name: "Site Level Optimization", email: "", phone: "", address: "" },
+                    { name: "On page Optimization", email: "", phone: "", address: "" },
+                    { name: "Content Creation", email: "", phone: "", address: "" },
+                    { name: "Premium Press Release", email: "", phone: "", address: "" },
+                    { name: "Authority Niche PLacements", email: "", phone: "", address: "" },
+                    { name: "Review Management", email: "", phone: "", address: "" },
+                    { name: "Index Links", email: "", phone: "", address: "" },
+                    { name: "Video recap", email: "", phone: "", address: "" }
+                ];
+
+                return (
+                    <div>
+                        <EditableTable title="Task 1" initialData={table1Data} />
+                    </div>
+                );
+            }
+
+            // Render the App component to the root div
+            ReactDOM.render(<App />, document.getElementById('root'));
+        };
+    </script>
+</body>
+</html>
+
